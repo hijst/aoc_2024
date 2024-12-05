@@ -29,6 +29,7 @@ fn solve() {
             .map(|n| n.parse::<i32>().unwrap())
             .collect())
         .collect();
+
     let instructions: Vec<Vec<i32>> = lines.iter()
         .filter(|s| s.contains(','))
         .map(|i| i.split(',')
@@ -41,8 +42,8 @@ fn solve() {
         rules.entry(rule[1]).and_modify(|rs| rs.push(rule[0])).or_insert(vec![rule[0]]);
     }
 
+    let (mut ans, mut ans2) = (0,0);
 
-    let mut ans = 0;
     for instruction in &instructions {
         let mut counts = true;
         for (i, page) in instruction.into_iter().enumerate() {
@@ -51,12 +52,30 @@ fn solve() {
                     if rules[&page].contains(r) { counts = false; break;}
                 }
         }
-        if counts { ans = ans + instruction[instruction.len()/2] }
+        if counts { 
+            ans = ans + instruction[instruction.len()/2];
+        } else {
+            ans2 = ans2 + fixed_score(instruction, &rules);
+        }
     }
 
-    let mut ans2 = 0;
-    ans2 = ans2 + 1;
+    println!("answer 1: {}", ans); // 5108
+    println!("answer 2: {}", ans2); // 7380
+}
 
-    println!("answer 1: {}", ans); // 184576302
-    println!("answer 2: {}", instructions[0][4])
+fn fixed_score(instruction: &Vec<i32>, rules: &HashMap<i32, Vec<i32>>) -> i32 {
+    let mut ins = instruction.to_vec();
+    let mut i: usize = 0;
+    while i < ins.len() {
+        for j in (i+1)..ins.len() {
+            if rules[&ins[i]].contains(&ins[j]) { 
+                let temp = ins[i];
+                ins[i] = ins[j];
+                ins[j] = temp;
+                continue;
+            }
+        }
+        i = i + 1;
+    }
+    return ins[ins.len()/2]
 }
