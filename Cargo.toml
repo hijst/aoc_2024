@@ -1,0 +1,10 @@
+[package]
+name = "advent_of_code_2024"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+regex = "1.9"
+
+[profile.dev]
+opt-level = 3
