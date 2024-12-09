@@ -73,9 +73,9 @@ fn solve() {
     // pass 2 try to move each one once
     for (c, v, t) in nums2.clone().iter().rev() {
         if *t == "T" {
+            let ix = nums2.iter().position(|&r| r == (*c,*v,*t)).unwrap();
             for (idx, (c2, v2, t2)) in nums2.clone().iter().enumerate() {
                 if *t2 == "F" && *c2 >= *c {
-                    let ix = nums2.iter().position(|&r| r == (*c,*v,*t)).unwrap();
                     if ix <= idx { break; }
                     nums2[ix] = (*c, 0, "F");
                     if *c2 == *c {
