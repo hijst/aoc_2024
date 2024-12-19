@@ -24,7 +24,7 @@ fn main() {
 }
 
 fn solve() {
-    let path = "../input/15.txt";
+    let path = "../input/t15.txt";
     let mut map: Vec<Vec<String>> = lines_from_file(path)
         .into_iter()
         .filter(|l| l.len() > 0 && l.chars().next().unwrap().to_string() == "#")
@@ -83,7 +83,7 @@ fn solve() {
             next = (next.0 + m.0, next.1 + m.1);
         }
 
-        //println!("{}", &map.clone().into_iter().map(|row| row.join("")).collect::<Vec<_>>().join("\n"));
+        println!("{}", &map.clone().into_iter().map(|row| row.join("")).collect::<Vec<_>>().join("\n"));
     }
 
     let mut m2: Vec<Vec<&str>> = lines_from_file(path)
@@ -176,10 +176,11 @@ fn solve() {
             if stop { break; }
             nexts = ns.clone();
         }
-        //println!("Move {}", i);
-        //for c in &m2 {
-        //    println!("{:?}", c.join(""));
-        //}
+        sleep(Duration::from_millis(166));
+        println!("Move {}", i);
+        for c in &m2 {
+            println!("{:?}", c.join(""));
+        }
     }
 
     println!("answer 1: {}", score(&map)); // 1527563
