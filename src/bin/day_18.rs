@@ -87,8 +87,8 @@ fn solve() {
         break;
     }
 
-    println!("answer 1: {}", ans1); // 1527563
-    println!("answer 2: {:?}", ans2); // 1521635
+    println!("answer 1: {}", ans1); // 360
+    println!("answer 2: {:?}", ans2); // (58, 62)
 }
 
 fn get_neighbors(cur: (usize,usize), w: isize, map: &HashSet<(usize,usize)> ) -> Vec<(usize,usize)> {
