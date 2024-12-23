@@ -55,6 +55,7 @@ fn solve() {
     }
 
     let mut hm: HashMap<(i64, i64, i64, i64, i64), i64> = HashMap::new();
+    let mut hm2: HashMap<(i64, i64, i64, i64), i64> = HashMap::new();
 
     for num in &nums {
         let mut n = *num;
@@ -71,18 +72,14 @@ fn solve() {
             cs.push_back(c);
             if !hm.contains_key(&(*num, cs[0], cs[1], cs[2], cs[3])) {
                 hm.insert((*num, cs[0], cs[1], cs[2], cs[3]), p);
+                let new = hm2.get(&(cs[0], cs[1], cs[2], cs[3])).unwrap_or(&0) + p;
+                hm2.insert((cs[0], cs[1], cs[2], cs[3]), new);
             }
         }
     }
 
     for seq in sequences {
-        let mut total = 0;
-        let default: i64 = 0;
-        for num in &nums {
-            total += hm
-                .get(&(*num, seq[0], seq[1], seq[2], seq[3]))
-                .unwrap_or(&default);
-        }
+        let total = *hm2.get(&(seq[0], seq[1], seq[2], seq[3])).unwrap_or(&0);
         if total > ans2 {
             ans2 = total;
         }
