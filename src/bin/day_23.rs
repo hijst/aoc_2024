@@ -88,6 +88,7 @@ fn solve() {
                             cycle_nodes.to_owned().into_iter().collect::<Vec<_>>();
                         new_cycle_nodes.push(nb.to_owned());
                         new_cycles.insert(hash(&new_cycle_nodes));
+                        break;
                     }
                 }
             }
