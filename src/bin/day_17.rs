@@ -31,12 +31,11 @@ fn solve() {
     let path = "../input/17.txt";
     let nums: Vec<String> = lines_from_file(path)
         .into_iter()
-        .map(|line| line.chars()
-            .filter(|c| c.is_digit(10))
-            .collect()
-        ).collect();
+        .map(|line| line.chars().filter(|c| c.is_digit(10)).collect())
+        .collect();
 
-    let register_values: Vec<i64> = nums[0..3].into_iter()
+    let register_values: Vec<i64> = nums[0..3]
+        .into_iter()
         .map(|s| s.parse::<i64>().unwrap())
         .collect();
 
@@ -48,8 +47,9 @@ fn solve() {
 
     println!("{:?}", registers);
 
-    let instructions: Vec<Vec<i64>> = nums[4].chars().map(|c|
-        c.to_digit(10).unwrap() as i64)
+    let instructions: Vec<Vec<i64>> = nums[4]
+        .chars()
+        .map(|c| c.to_digit(10).unwrap() as i64)
         .collect::<Vec<_>>()
         .chunks(2)
         .map(|c| c.to_vec())
@@ -58,8 +58,8 @@ fn solve() {
     let target: &str = &lines_from_file(path)[4].clone()[9..];
     println!("TARGET {}", target);
 
-    let mut t: i64 = 1732324875100000;
-    t=0;
+    let mut t: i64 = 1732324700000000;
+    //t=0;
     while t < i64::MAX {
         registers = Registers {
             a: t,
@@ -82,14 +82,16 @@ fn solve() {
                 5 => out(i[1], &mut registers, &mut output),
                 6 => bdv(i[1], &mut registers),
                 7 => cdv(i[1], &mut registers),
-                _ => panic!("invalid operator {}", i[0])
+                _ => panic!("invalid operator {}", i[0]),
             }
 
             if i[0] != 3 {
                 ix = ix + 1;
             }
 
-            if prev_ix == ix { break; }
+            if prev_ix == ix {
+                break;
+            }
             prev_ix = ix;
         }
         if t % 10 == 0 {
@@ -97,7 +99,9 @@ fn solve() {
             let o = &output[1..];
             println!("output {} target {}", o, target);
         }
-        if output[1..] == *target { break; }
+        if output[1..] == *target {
+            break;
+        }
         t += 1;
     }
 
@@ -113,7 +117,7 @@ fn adv(operand: i64, registers: &mut Registers) {
     let num = registers.a;
     let base: i64 = 2;
     let den: i64 = base.pow(combo_operand.try_into().unwrap());
-    registers.a = num/den;
+    registers.a = num / den;
 }
 
 fn bxl(operand: i64, registers: &mut Registers) {
@@ -127,7 +131,9 @@ fn bst(operand: i64, registers: &mut Registers) {
 }
 
 fn jnz(operand: i64, registers: &mut Registers, i: &mut usize) {
-    if registers.a == 0 { return }
+    if registers.a == 0 {
+        return;
+    }
     *i = operand as usize;
 }
 
@@ -146,7 +152,7 @@ fn bdv(operand: i64, registers: &mut Registers) {
     let num = registers.a;
     let base: i64 = 2;
     let den = base.pow(combo_operand.try_into().unwrap());
-    registers.b = num/den;
+    registers.b = num / den;
 }
 
 fn cdv(operand: i64, registers: &mut Registers) {
@@ -154,7 +160,7 @@ fn cdv(operand: i64, registers: &mut Registers) {
     let num: i64 = registers.a;
     let base: i64 = 2;
     let den = base.pow(combo_operand.try_into().unwrap());
-    registers.c = num/den;
+    registers.c = num / den;
 }
 
 fn get_combo_operand(operand: i64, registers: &Registers) -> i64 {
@@ -165,5 +171,5 @@ fn get_combo_operand(operand: i64, registers: &Registers) -> i64 {
         6 => registers.c,
         _ => panic!("no valid operand {}", operand),
     };
-    return res
+    return res;
 }
